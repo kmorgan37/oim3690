@@ -1,1 +1,786 @@
-Hi
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Kelly Morgan — persona documentation of life and the world around me." />
+  <title>Kelly Morgan — Persona Documentation</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#111824; --panel2:#0f1620;
+      --text:#e9eef7; --muted:#b3c0d6; --faint:#7f8aa0;
+      --brand:#79b8ff; --ok:#6ee7b7; --warn:#fbbf24; --bad:#fb7185;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); color:var(--text); background:radial-gradient(1200px 800px at 20% -10%, rgba(121,184,255,.25), transparent 55%),
+      radial-gradient(900px 650px at 90% 10%, rgba(110,231,183,.18), transparent 55%),
+      var(--bg);
+      line-height:1.45;
+    }
+    a{color:var(--brand)}
+    .wrap{max-width:1100px; margin:0 auto; padding:26px 18px 60px}
+    header{
+      display:flex; gap:14px; align-items:flex-start; justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .title{
+      display:flex; flex-direction:column; gap:8px;
+      padding:18px 18px 16px; border:1px solid var(--border);
+      border-radius:var(--radius); background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:var(--shadow);
+      flex:1;
+    }
+    .title h1{margin:0; font-size:24px; letter-spacing:.2px}
+    .title p{margin:0; color:var(--muted)}
+    .badgeRow{display:flex; gap:8px; flex-wrap:wrap}
+    .badge{
+      border:1px solid var(--border); padding:6px 10px; border-radius:999px;
+      font-size:12px; color:var(--muted); background:rgba(255,255,255,.03)
+    }
+    .rightTools{
+      display:flex; flex-direction:column; gap:10px; min-width:260px;
+    }
+    .card{
+      border:1px solid var(--border); border-radius:var(--radius); background:rgba(255,255,255,.03);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .cardHeader{
+      padding:12px 14px; border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      background:rgba(255,255,255,.02);
+    }
+    .cardHeader h2{margin:0; font-size:14px; letter-spacing:.35px; color:var(--muted); text-transform:uppercase}
+    .cardBody{padding:14px}
+    .grid{
+      display:grid; grid-template-columns: 1.15fr .85fr; gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 960px){
+      header{flex-direction:column}
+      .rightTools{min-width:auto; width:100%}
+      .grid{grid-template-columns:1fr}
+    }
+    label{display:block; font-size:12px; color:var(--muted); margin:10px 0 6px}
+    input[type="text"], input[type="date"], textarea, select{
+      width:100%; padding:10px 11px; border-radius:12px;
+      border:1px solid var(--border); background:rgba(15,22,32,.7);
+      color:var(--text); outline:none;
+    }
+    textarea{min-height:110px; resize:vertical}
+    .row{display:flex; gap:10px}
+    .row > *{flex:1}
+    .btnRow{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px}
+    button{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      transition: transform .04s ease, background .12s ease;
+      font-weight:600;
+    }
+    button:hover{background:rgba(255,255,255,.08)}
+    button:active{transform:translateY(1px)}
+    .primary{border-color:rgba(121,184,255,.35); background:rgba(121,184,255,.12)}
+    .primary:hover{background:rgba(121,184,255,.18)}
+    .danger{border-color:rgba(251,113,133,.35); background:rgba(251,113,133,.10)}
+    .danger:hover{background:rgba(251,113,133,.14)}
+    .ok{border-color:rgba(110,231,183,.35); background:rgba(110,231,183,.10)}
+    .ok:hover{background:rgba(110,231,183,.14)}
+    .small{font-size:12px; font-weight:700; padding:8px 10px; border-radius:11px}
+    .muted{color:var(--muted)}
+    .faint{color:var(--faint)}
+    .hint{
+      font-size:12px; color:var(--faint); margin-top:8px;
+      font-family:var(--mono);
+    }
+    .divider{height:1px; background:var(--border); margin:12px 0}
+    .toolbar{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .toolbar .left, .toolbar .right{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .pill{
+      display:flex; gap:8px; align-items:center;
+      border:1px solid var(--border); padding:8px 10px; border-radius:999px;
+      background:rgba(255,255,255,.03);
+    }
+    .pill input, .pill select{
+      width:auto; padding:6px 8px; border-radius:10px; border:1px solid var(--border);
+      background:rgba(15,22,32,.7);
+    }
+    .entries{
+      display:flex; flex-direction:column; gap:12px;
+      padding:14px;
+    }
+    .entry{
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      overflow:hidden;
+    }
+    .entryTop{
+      padding:12px 14px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .entryTitle{display:flex; flex-direction:column; gap:4px}
+    .entryTitle strong{font-size:15px}
+    .meta{font-size:12px; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap}
+    .chips{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
+    .chip{
+      font-size:11px; padding:4px 8px; border-radius:999px;
+      border:1px solid var(--border); background:rgba(255,255,255,.03);
+      color:var(--muted);
+    }
+    .entryBody{
+      padding:12px 14px 14px;
+      display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;
+    }
+    .entryBody > div{
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:10px 10px 9px;
+      background:rgba(15,22,32,.45);
+      min-height:84px;
+    }
+    .entryBody h4{margin:0 0 6px; font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.35px}
+    .entryBody p{margin:0; white-space:pre-wrap; color:var(--text); font-size:13px}
+    @media (max-width: 960px){
+      .entryBody{grid-template-columns:1fr}
+    }
+    .toast{
+      position:fixed; left:50%; bottom:20px; transform:translateX(-50%);
+      background:rgba(17,24,36,.92); border:1px solid var(--border);
+      padding:10px 12px; border-radius:12px; box-shadow:var(--shadow);
+      font-size:13px; color:var(--text);
+      opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-2px)}
+    footer{
+      margin-top:18px; color:var(--faint); font-size:12px;
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+      padding:0 4px;
+    }
+    code.inline{
+      font-family:var(--mono); font-size:12px; color:var(--muted);
+      padding:2px 6px; border:1px solid var(--border); border-radius:10px;
+      background:rgba(255,255,255,.03);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title" role="banner">
+        <h1>Kelly Morgan — Persona Documentation</h1>
+        <p>
+          I am Kelly Morgan, a Junior Babson student from Chicago, IL. This website is for my persona documentation
+          of my life and the world around me. I want it to include what I see and experience, how I view those, and
+          other thoughts I tend to have.
+        </p>
+        <div class="badgeRow" aria-label="Site details">
+          <span class="badge">Local-first journal</span>
+          <span class="badge">Search + tags</span>
+          <span class="badge">Export/import for GitHub</span>
+          <span class="badge">Works on GitHub Pages</span>
+        </div>
+      </div>
+
+      <div class="rightTools">
+        <div class="card">
+          <div class="cardHeader">
+            <h2>Controls</h2>
+            <span class="faint" id="entryCount">0 entries</span>
+          </div>
+          <div class="cardBody">
+            <div class="btnRow">
+              <button class="ok small" id="btnExport">Export JSON</button>
+              <button class="small" id="btnImport">Import JSON</button>
+              <input id="importFile" type="file" accept="application/json" hidden />
+              <button class="small" id="btnDownloadHtml">Download this HTML</button>
+              <button class="danger small" id="btnClearAll">Clear all</button>
+            </div>
+            <div class="hint">
+              Tip: Your entries are saved in <span class="inline code">localStorage</span> in your browser.
+              Export JSON to back them up or move them to another device.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <h2>About</h2>
+          </div>
+          <div class="cardBody">
+            <p class="muted" style="margin:0">
+              Use this as a living record of your perspective:
+              <strong>what happened</strong>, <strong>how you interpret it</strong>, and <strong>what it makes you think</strong>.
+            </p>
+            <div class="divider"></div>
+            <p class="faint" style="margin:0">
+              You can host this free with GitHub Pages by committing this file as <code class="inline">index.html</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid" role="main">
+      <!-- Entry form -->
+      <section class="card" aria-labelledby="newEntryTitle">
+        <div class="cardHeader">
+          <h2 id="newEntryTitle">New entry</h2>
+          <span class="faint" id="autosaveStatus">Ready</span>
+        </div>
+        <div class="cardBody">
+          <form id="entryForm">
+            <div class="row">
+              <div>
+                <label for="date">Date</label>
+                <input id="date" type="date" required />
+              </div>
+              <div>
+                <label for="title">Title</label>
+                <input id="title" type="text" placeholder="A quick headline (e.g., “Snowy walk to class”)"
+                       maxlength="80" required />
+              </div>
+            </div>
+
+            <label for="tags">Tags (comma-separated)</label>
+            <input id="tags" type="text" placeholder="Babson, Chicago, friends, class, travel…" />
+
+            <label for="seeExperience">What you saw / experienced</label>
+            <textarea id="seeExperience" placeholder="What happened? What did you notice?"></textarea>
+
+            <label for="yourView">How you view it</label>
+            <textarea id="yourView" placeholder="What did it mean to you? How did it make you feel or think?"></textarea>
+
+            <label for="otherThoughts">Other thoughts you tend to have</label>
+            <textarea id="otherThoughts" placeholder="Connections, patterns, questions, reflections…"></textarea>
+
+            <div class="btnRow">
+              <button class="primary" type="submit" id="btnSave">Save entry</button>
+              <button type="button" id="btnReset">Reset</button>
+            </div>
+
+            <div class="hint" id="formHint">
+              This entry format matches your goal: what you experience → how you interpret it → what you think beyond it.
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Entries list -->
+      <section class="card" aria-labelledby="entriesTitle">
+        <div class="cardHeader">
+          <h2 id="entriesTitle">Entries</h2>
+          <div class="toolbar" aria-label="Entry controls">
+            <div class="left">
+              <div class="pill" title="Search entries">
+                <span class="faint">Search</span>
+                <input id="search" type="text" placeholder="title, tags, text…" />
+              </div>
+              <div class="pill" title="Filter by tag">
+                <span class="faint">Tag</span>
+                <select id="tagFilter">
+                  <option value="">All</option>
+                </select>
+              </div>
+            </div>
+            <div class="right">
+              <div class="pill" title="Sort order">
+                <span class="faint">Sort</span>
+                <select id="sort">
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="title">Title</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="entries" id="entries"></div>
+
+        <div style="padding:14px; border-top:1px solid var(--border)" class="faint" id="emptyState">
+          No entries yet. Add your first entry on the left.
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>Made to be portable: commit this file to GitHub as <code class="inline">index.html</code>.</div>
+      <div>Data storage: <code class="inline">localStorage</code> • Backup: <code class="inline">Export JSON</code></div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // -----------------------------
+    // Persona Documentation Journal
+    // Single-file site for GitHub Pages
+    // -----------------------------
+
+    const STORAGE_KEY = "kelly_persona_entries_v1";
+
+    /** @typedef {{
+     *  id: string,
+     *  date: string, // YYYY-MM-DD
+     *  title: string,
+     *  tags: string[],
+     *  seeExperience: string,
+     *  yourView: string,
+     *  otherThoughts: string,
+     *  createdAt: number,
+     *  updatedAt: number
+     * }} Entry */
+
+    const els = {
+      form: document.getElementById("entryForm"),
+      date: document.getElementById("date"),
+      title: document.getElementById("title"),
+      tags: document.getElementById("tags"),
+      seeExperience: document.getElementById("seeExperience"),
+      yourView: document.getElementById("yourView"),
+      otherThoughts: document.getElementById("otherThoughts"),
+      entries: document.getElementById("entries"),
+      emptyState: document.getElementById("emptyState"),
+      search: document.getElementById("search"),
+      tagFilter: document.getElementById("tagFilter"),
+      sort: document.getElementById("sort"),
+      entryCount: document.getElementById("entryCount"),
+      autosaveStatus: document.getElementById("autosaveStatus"),
+      btnExport: document.getElementById("btnExport"),
+      btnImport: document.getElementById("btnImport"),
+      importFile: document.getElementById("importFile"),
+      btnDownloadHtml: document.getElementById("btnDownloadHtml"),
+      btnClearAll: document.getElementById("btnClearAll"),
+      btnReset: document.getElementById("btnReset"),
+      toast: document.getElementById("toast"),
+    };
+
+    /** @type {Entry[]} */
+    let entries = [];
+    let editingId = null;
+
+    function uid() {
+      return (crypto?.randomUUID?.() ?? ("id_" + Math.random().toString(16).slice(2))) + "_" + Date.now();
+    }
+
+    function todayISO() {
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function parseTags(raw) {
+      return raw
+        .split(",")
+        .map(t => t.trim())
+        .filter(Boolean)
+        .map(t => t.replace(/\s+/g, " "));
+    }
+
+    function showToast(msg) {
+      els.toast.textContent = msg;
+      els.toast.classList.add("show");
+      window.clearTimeout(showToast._t);
+      showToast._t = window.setTimeout(() => els.toast.classList.remove("show"), 1600);
+    }
+
+    function saveToStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+      els.autosaveStatus.textContent = "Saved";
+      window.clearTimeout(saveToStorage._t);
+      saveToStorage._t = window.setTimeout(() => (els.autosaveStatus.textContent = "Ready"), 900);
+    }
+
+    function loadFromStorage() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      entries = raw ? safeParseJSON(raw, []) : [];
+    }
+
+    function safeParseJSON(raw, fallback) {
+      try { return JSON.parse(raw); } catch { return fallback; }
+    }
+
+    function formatDate(iso) {
+      // iso expected YYYY-MM-DD
+      const [y, m, d] = iso.split("-").map(Number);
+      if (!y || !m || !d) return iso;
+      const dt = new Date(y, m - 1, d);
+      return dt.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    }
+
+    function updateTagDropdown() {
+      const allTags = new Set();
+      entries.forEach(e => (e.tags || []).forEach(t => allTags.add(t)));
+      const current = els.tagFilter.value;
+
+      // rebuild options
+      els.tagFilter.innerHTML = `<option value="">All</option>`;
+      Array.from(allTags).sort((a,b) => a.localeCompare(b)).forEach(tag => {
+        const opt = document.createElement("option");
+        opt.value = tag;
+        opt.textContent = tag;
+        els.tagFilter.appendChild(opt);
+      });
+
+      // preserve selection if still exists
+      if (current && Array.from(allTags).includes(current)) {
+        els.tagFilter.value = current;
+      } else {
+        els.tagFilter.value = "";
+      }
+    }
+
+    function getFilteredSortedEntries() {
+      const q = els.search.value.trim().toLowerCase();
+      const tag = els.tagFilter.value;
+      const sort = els.sort.value;
+
+      let list = [...entries];
+
+      if (q) {
+        list = list.filter(e => {
+          const hay = [
+            e.title, (e.tags || []).join(", "),
+            e.seeExperience, e.yourView, e.otherThoughts
+          ].join(" ").toLowerCase();
+          return hay.includes(q);
+        });
+      }
+
+      if (tag) {
+        list = list.filter(e => (e.tags || []).includes(tag));
+      }
+
+      if (sort === "newest") {
+        list.sort((a,b) => (b.date || "").localeCompare(a.date || "") || (b.updatedAt - a.updatedAt));
+      } else if (sort === "oldest") {
+        list.sort((a,b) => (a.date || "").localeCompare(b.date || "") || (a.updatedAt - b.updatedAt));
+      } else if (sort === "title") {
+        list.sort((a,b) => (a.title || "").localeCompare(b.title || ""));
+      }
+
+      return list;
+    }
+
+    function render() {
+      updateTagDropdown();
+
+      const list = getFilteredSortedEntries();
+      els.entries.innerHTML = "";
+
+      els.entryCount.textContent = `${entries.length} ${entries.length === 1 ? "entry" : "entries"}`;
+      els.emptyState.style.display = entries.length ? "none" : "block";
+
+      if (!list.length && entries.length) {
+        // nothing matches filters/search
+        const msg = document.createElement("div");
+        msg.className = "faint";
+        msg.style.padding = "14px";
+        msg.textContent = "No entries match your search/filter.";
+        els.entries.appendChild(msg);
+        return;
+      }
+
+      for (const e of list) {
+        els.entries.appendChild(renderEntryCard(e));
+      }
+    }
+
+    function renderEntryCard(e) {
+      const card = document.createElement("article");
+      card.className = "entry";
+      card.setAttribute("data-id", e.id);
+
+      const top = document.createElement("div");
+      top.className = "entryTop";
+
+      const left = document.createElement("div");
+      left.className = "entryTitle";
+
+      const title = document.createElement("strong");
+      title.textContent = e.title || "(Untitled)";
+      left.appendChild(title);
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      const date = document.createElement("span");
+      date.textContent = `📅 ${formatDate(e.date)}`;
+      const updated = document.createElement("span");
+      updated.textContent = `↻ ${new Date(e.updatedAt).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}`;
+      meta.append(date, updated);
+      left.appendChild(meta);
+
+      const chips = document.createElement("div");
+      chips.className = "chips";
+      (e.tags || []).slice(0, 10).forEach(t => {
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.textContent = t;
+        chips.appendChild(chip);
+      });
+      if ((e.tags || []).length > 10) {
+        const more = document.createElement("span");
+        more.className = "chip";
+        more.textContent = `+${e.tags.length - 10} more`;
+        chips.appendChild(more);
+      }
+      left.appendChild(chips);
+
+      const right = document.createElement("div");
+      right.style.display = "flex";
+      right.style.gap = "8px";
+      right.style.flexWrap = "wrap";
+      right.style.justifyContent = "flex-end";
+
+      const btnEdit = document.createElement("button");
+      btnEdit.className = "small";
+      btnEdit.textContent = "Edit";
+      btnEdit.addEventListener("click", () => startEdit(e.id));
+
+      const btnDelete = document.createElement("button");
+      btnDelete.className = "danger small";
+      btnDelete.textContent = "Delete";
+      btnDelete.addEventListener("click", () => deleteEntry(e.id));
+
+      right.append(btnEdit, btnDelete);
+
+      top.append(left, right);
+
+      const body = document.createElement("div");
+      body.className = "entryBody";
+
+      body.appendChild(sectionBlock("What you saw / experienced", e.seeExperience));
+      body.appendChild(sectionBlock("How you view it", e.yourView));
+      body.appendChild(sectionBlock("Other thoughts", e.otherThoughts));
+
+      card.append(top, body);
+      return card;
+    }
+
+    function sectionBlock(h, text) {
+      const wrap = document.createElement("div");
+      const hh = document.createElement("h4");
+      hh.textContent = h;
+      const p = document.createElement("p");
+      p.textContent = (text || "").trim() || "—";
+      wrap.append(hh, p);
+      return wrap;
+    }
+
+    function resetForm() {
+      editingId = null;
+      els.form.reset();
+      els.date.value = todayISO();
+      els.btnReset.textContent = "Reset";
+      document.getElementById("btnSave").textContent = "Save entry";
+      showToast("Form reset");
+    }
+
+    function startEdit(id) {
+      const e = entries.find(x => x.id === id);
+      if (!e) return;
+
+      editingId = id;
+      els.date.value = e.date || todayISO();
+      els.title.value = e.title || "";
+      els.tags.value = (e.tags || []).join(", ");
+      els.seeExperience.value = e.seeExperience || "";
+      els.yourView.value = e.yourView || "";
+      els.otherThoughts.value = e.otherThoughts || "";
+
+      document.getElementById("btnSave").textContent = "Update entry";
+      els.btnReset.textContent = "Cancel edit";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      showToast("Editing entry");
+    }
+
+    function upsertEntryFromForm() {
+      const date = els.date.value;
+      const title = els.title.value.trim();
+      const tags = parseTags(els.tags.value);
+      const seeExperience = els.seeExperience.value.trim();
+      const yourView = els.yourView.value.trim();
+      const otherThoughts = els.otherThoughts.value.trim();
+
+      const now = Date.now();
+
+      if (!date || !title) {
+        showToast("Date + title are required");
+        return;
+      }
+
+      if (editingId) {
+        const idx = entries.findIndex(e => e.id === editingId);
+        if (idx === -1) return;
+
+        entries[idx] = {
+          ...entries[idx],
+          date, title, tags, seeExperience, yourView, otherThoughts,
+          updatedAt: now
+        };
+        saveToStorage();
+        render();
+        resetForm();
+        showToast("Entry updated");
+      } else {
+        const e = {
+          id: uid(),
+          date,
+          title,
+          tags,
+          seeExperience,
+          yourView,
+          otherThoughts,
+          createdAt: now,
+          updatedAt: now
+        };
+        entries.push(e);
+        saveToStorage();
+        render();
+        resetForm();
+        showToast("Entry saved");
+      }
+    }
+
+    function deleteEntry(id) {
+      const e = entries.find(x => x.id === id);
+      if (!e) return;
+
+      const ok = confirm(`Delete "${e.title}"? This can’t be undone (unless you exported JSON).`);
+      if (!ok) return;
+
+      entries = entries.filter(x => x.id !== id);
+      saveToStorage();
+      render();
+      showToast("Entry deleted");
+    }
+
+    function exportJSON() {
+      const payload = {
+        app: "Kelly Persona Documentation",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        entries
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `kelly-persona-entries-${new Date().toISOString().slice(0,10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast("Exported JSON");
+    }
+
+    async function importJSON(file) {
+      const text = await file.text();
+      const parsed = safeParseJSON(text, null);
+      if (!parsed) {
+        alert("That file doesn’t look like valid JSON.");
+        return;
+      }
+
+      const importedEntries = Array.isArray(parsed) ? parsed : parsed.entries;
+      if (!Array.isArray(importedEntries)) {
+        alert("Couldn’t find an 'entries' array in that JSON.");
+        return;
+      }
+
+      // normalize + merge by id
+      const normalized = importedEntries
+        .filter(Boolean)
+        .map(e => ({
+          id: String(e.id || uid()),
+          date: String(e.date || todayISO()),
+          title: String(e.title || "Untitled"),
+          tags: Array.isArray(e.tags) ? e.tags.map(String) : parseTags(String(e.tags || "")),
+          seeExperience: String(e.seeExperience || ""),
+          yourView: String(e.yourView || ""),
+          otherThoughts: String(e.otherThoughts || ""),
+          createdAt: Number(e.createdAt || Date.now()),
+          updatedAt: Number(e.updatedAt || Date.now())
+        }));
+
+      const byId = new Map(entries.map(e => [e.id, e]));
+      for (const e of normalized) byId.set(e.id, e);
+
+      entries = Array.from(byId.values());
+      saveToStorage();
+      render();
+      showToast("Imported JSON");
+    }
+
+    function downloadThisHtml() {
+      // downloads the current DOM as a single HTML file
+      const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "index.html";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast("Downloaded index.html");
+    }
+
+    function clearAll() {
+      const ok = confirm("Clear ALL entries from this browser? Export JSON first if you want a backup.");
+      if (!ok) return;
+      entries = [];
+      localStorage.removeItem(STORAGE_KEY);
+      render();
+      resetForm();
+      showToast("Cleared");
+    }
+
+    // -----------------------------
+    // Wire up events
+    // -----------------------------
+    els.form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      upsertEntryFromForm();
+    });
+
+    els.btnReset.addEventListener("click", () => resetForm());
+    els.search.addEventListener("input", render);
+    els.tagFilter.addEventListener("change", render);
+    els.sort.addEventListener("change", render);
+
+    els.btnExport.addEventListener("click", exportJSON);
+
+    els.btnImport.addEventListener("click", () => els.importFile.click());
+    els.importFile.addEventListener("change", async () => {
+      const file = els.importFile.files?.[0];
+      if (file) await importJSON(file);
+      els.importFile.value = "";
+    });
+
+    els.btnDownloadHtml.addEventListener("click", downloadThisHtml);
+    els.btnClearAll.addEventListener("click", clearAll);
+
+    // Initialize
+    loadFromStorage();
+    els.date.value = todayISO();
+    render();
+  </script>
+</body>
+</html>
