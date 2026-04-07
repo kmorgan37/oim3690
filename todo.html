@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Todo App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1565c0;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .todo-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(21, 101, 192, 0.15);
+            border: 1px solid #e3f2fd;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        #todo-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #bbdefb;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        #todo-input:focus {
+            border-color: #1976d2;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        #todo-input::placeholder {
+            color: #90caf9;
+            font-style: italic;
+        }
+
+        #add-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+        }
+
+        #add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+        }
+
+        #add-btn:active {
+            transform: translateY(0);
+        }
+
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e3f2fd;
+            gap: 15px;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+
+        .todo-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .todo-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .todo-text {
+            flex: 1;
+            font-size: 16px;
+            color: #424242;
+            transition: all 0.3s ease;
+        }
+
+        .todo-text.completed {
+            text-decoration: line-through;
+            color: #9e9e9e;
+            opacity: 0.7;
+        }
+
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #1976d2;
+            border-radius: 4px;
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+        }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+            margin-right: 5px;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+            background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+        }
+
+        .edit-btn:active {
+            transform: translateY(0);
+        }
+
+        .stats {
+            margin-top: 25px;
+            text-align: center;
+            color: #1976d2;
+            font-weight: 600;
+            font-size: 14px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #90caf9;
+        }
+
+        /* Custom checkbox styling */
+        .todo-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #90caf9;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .todo-checkbox:checked {
+            background-color: #1976d2;
+            border-color: #1976d2;
+        }
+
+        .todo-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .todo-checkbox:hover {
+            border-color: #1976d2;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            color: #90caf9;
+            font-style: italic;
+            padding: 40px 20px;
+        }
+
+        .empty-state::before {
+            content: '📝';
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Todo App</h1>
+    <div class="todo-container">
+        <div class="input-section">
+            <input type="text" id="todo-input" placeholder="Enter a new todo..." maxlength="100">
+            <button id="add-btn">Add Todo</button>
+        </div>
+
+        <ul class="todo-list" id="todo-list">
+            <!-- Todos will be added here -->
+        </ul>
+
+        <div class="empty-state" id="empty-state">
+            No todos yet! Add one above to get started.
+        </div>
+
+        <div class="stats" id="stats">
+            Total: 0 | Completed: 0
+        </div>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const todoInput = document.getElementById('todo-input');
+        const addBtn = document.getElementById('add-btn');
+        const todoList = document.getElementById('todo-list');
+        const stats = document.getElementById('stats');
+
+        // Initialize todos array from localStorage or empty array
+        let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+        // Function to render todos
+        function renderTodos() {
+            todoList.innerHTML = '';
+
+            if (todos.length === 0) {
+                document.getElementById('empty-state').style.display = 'block';
+            } else {
+                document.getElementById('empty-state').style.display = 'none';
+            }
+
+            todos.forEach((todo, index) => {
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+
+                li.innerHTML = `
+                    <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} data-index="${index}">
+                    <span class="todo-text ${todo.completed ? 'completed' : ''}" contenteditable="false" data-index="${index}">${todo.text}</span>
+                    <button class="edit-btn" data-index="${index}" title="Edit">✏️</button>
+                    <button class="delete-btn" data-index="${index}" title="Delete">🗑️</button>
+                `;
+
+                todoList.appendChild(li);
+            });
+
+            updateStats();
+            saveTodos();
+        }
+
+        // Function to add a new todo
+        function addTodo() {
+            const text = todoInput.value.trim();
+
+            if (text === '') {
+                alert('Please enter a todo item!');
+                return;
+            }
+
+            todos.push({
+                text: text,
+                completed: false
+            });
+
+            todoInput.value = '';
+            renderTodos();
+        }
+
+        // Function to toggle todo completion
+        function toggleTodo(index) {
+            todos[index].completed = !todos[index].completed;
+            renderTodos();
+        }
+
+        // Function to delete a todo
+        function deleteTodo(index) {
+            todos.splice(index, 1);
+            renderTodos();
+        }
+
+        // Function to update stats
+        function updateStats() {
+            const total = todos.length;
+            const completed = todos.filter(todo => todo.completed).length;
+            stats.textContent = `Total: ${total} | Completed: ${completed}`;
+        }
+
+        // Function to save todos to localStorage
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+
+        // Event listeners
+        addBtn.addEventListener('click', addTodo);
+
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        todoList.addEventListener('click', (e) => {
+            const target = e.target;
+            const index = parseInt(target.dataset.index);
+
+            if (target.classList.contains('todo-checkbox')) {
+                toggleTodo(index);
+            } else if (target.classList.contains('delete-btn')) {
+                deleteTodo(index);
+            } else if (target.classList.contains('edit-btn')) {
+                editTodo(index);
+            }
+        });
+
+        // Initial render
+        renderTodos();
+    </script>
+</body>
+</html>
+
+document.querySelector('h1').textContent = 'I change the title';
+document.querySelector('h1').style.color = 'blue';
+document.querySelector('body').style.backgroundColor = 'black';
